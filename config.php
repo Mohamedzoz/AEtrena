@@ -2,7 +2,8 @@
 date_default_timezone_set('Africa/Cairo');
 // ─── إعدادات البيئة ───────────────────────────
 $host_name = $_SERVER['HTTP_HOST'] ?? 'localhost';
-$is_local = (strpos($host_name, 'localhost') !== false || strpos($host_name, '127.0.0.1') !== false || strpos($host_name, '192.168.') === 0 || strpos($host_name, '::1') !== false);
+$is_replit = (getenv('REPL_ID') !== false);
+$is_local = $is_replit || (strpos($host_name, 'localhost') !== false || strpos($host_name, '127.0.0.1') !== false || strpos($host_name, '192.168.') === 0 || strpos($host_name, '::1') !== false);
 
 $configs = [
     'local' => [
@@ -11,6 +12,7 @@ $configs = [
         'dbname'   => 'aeterna_erp',
         'username' => 'root',
         'password' => '',
+        'socket'   => '/tmp/mysql_run/mysql.sock',
     ],
     'production' => [
         'host'     => 'sql113.infinityfree.com',
@@ -18,6 +20,7 @@ $configs = [
         'dbname'   => 'if0_41872581_aeterna_erp',
         'username' => 'if0_41872581',
         'password' => 'Mrcooltop94',
+        'socket'   => null,
     ]
 ];
 
@@ -25,7 +28,11 @@ $db_config = $is_local ? $configs['local'] : $configs['production'];
 
 // ─── محاولة الاتصال ─────────────────────────────
 try {
-    $dsn = "mysql:host={$db_config['host']};port={$db_config['port']};dbname={$db_config['dbname']};charset=utf8mb4";
+    if (!empty($db_config['socket']) && file_exists($db_config['socket'])) {
+        $dsn = "mysql:unix_socket={$db_config['socket']};dbname={$db_config['dbname']};charset=utf8mb4";
+    } else {
+        $dsn = "mysql:host={$db_config['host']};port={$db_config['port']};dbname={$db_config['dbname']};charset=utf8mb4";
+    }
     
     $options = [
         PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
