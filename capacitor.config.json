@@ -1,0 +1,45 @@
+{
+  "appId": "com.aeterna.erp",
+  "appName": "Aeterna ERP",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "server": {
+    "url": "https://YOUR-REPLIT-APP-URL.replit.app",
+    "cleartext": false,
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false,
+    "loggingBehavior": "none",
+    "buildOptions": {
+      "keystorePath": "release.keystore",
+      "keystoreAlias": "aeterna",
+      "keystorePassword": "",
+      "keystoreAliasPassword": ""
+    }
+  },
+  "plugins": {
+    "Geolocation": {
+      "iosLocationWhenInUseUsageDescription": "يحتاج التطبيق للوصول لموقعك لتسجيل الحضور والتحقق من الجيوفنسنج",
+      "iosLocationAlwaysAndWhenInUseUsageDescription": "يحتاج التطبيق للوصول لموقعك لتسجيل الحضور والتحقق من الجيوفنسنج"
+    },
+    "Camera": {
+      "iosPhotoUsageDescription": "يستخدم التطبيق الكاميرا لرفع صور تقارير المشاريع"
+    },
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#1F1E1C",
+      "androidSplashResourceName": "splash",
+      "showSpinner": false
+    },
+    "StatusBar": {
+      "style": "DARK",
+      "backgroundColor": "#1F1E1C"
+    },
+    "PushNotifications": {
+      "presentationOptions": ["badge", "sound", "alert"]
+    }
+  }
+}

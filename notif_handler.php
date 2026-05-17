@@ -10,10 +10,29 @@ if (!isLoggedIn()) {
 if (isset($_GET['action'])) {
     if ($_GET['action'] === 'mark_read') {
         $pdo->prepare("UPDATE users SET last_notif_read_at = CURRENT_TIMESTAMP WHERE id = ?")->execute([$_SESSION['user_id']]);
-        // Also mark all in notifications table as read
         $pdo->prepare("UPDATE notifications SET is_read = 1 WHERE user_id = ?")->execute([$_SESSION['user_id']]);
         header('Content-Type: application/json');
         echo json_encode(['success' => true]);
+        exit;
+    }
+
+    if ($_GET['action'] === 'mark_all_read') {
+        $pdo->prepare("UPDATE users SET last_notif_read_at = CURRENT_TIMESTAMP WHERE id = ?")->execute([$_SESSION['user_id']]);
+        $pdo->prepare("UPDATE notifications SET is_read = 1 WHERE user_id = ?")->execute([$_SESSION['user_id']]);
+        header('Content-Type: application/json');
+        echo json_encode(['success' => true]);
+        exit;
+    }
+
+    if ($_GET['action'] === 'get') {
+        header('Content-Type: application/json');
+        $stmt = $pdo->prepare("SELECT id, title, message, link, type, is_read, created_at FROM notifications WHERE user_id = ? ORDER BY created_at DESC LIMIT 20");
+        $stmt->execute([$_SESSION['user_id']]);
+        $rows = $stmt->fetchAll();
+        foreach ($rows as &$r) {
+            $r['created_at'] = date('d/m H:i', strtotime($r['created_at']));
+        }
+        echo json_encode($rows);
         exit;
     }
 

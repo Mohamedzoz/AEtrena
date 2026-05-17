@@ -1,0 +1,38 @@
+# Node.js
+node_modules/
+npm-debug.log*
+
+# Capacitor Android (generated - GitHub Actions يعيد توليده)
+android/
+
+# Capacitor iOS
+ios/
+
+# Build outputs
+*.apk
+*.aab
+*.ipa
+
+# Keystore (حساسة جداً - لا ترفعها أبداً)
+*.keystore
+*.jks
+release.keystore
+
+# PHP / Server
+uploads/
+/tmp/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Replit
+.replit
+replit.nix
+.cache/
